@@ -1,0 +1,8 @@
+streamlit
+pandas
+matplotlib
+pillow
+pytesseract
+opencv-python-headless
+numpy
+langchain-groq
