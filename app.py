@@ -491,7 +491,7 @@ if page == "Dashboard":
 
     if not df.empty:
 
-        recent_df = df.tail(5).copy()
+        recent_df = df.tail(3).copy()
 
         recent_df.columns = [
             "ID",
@@ -666,45 +666,47 @@ elif page == "Upload Expense":
 
     st.subheader("Manual Expense Entry")
 
-    manual_amount = st.number_input(
-        "Enter Amount",
-        min_value=1,
-        step=1
-    )
+    categories = [
+        "Food",
+        "Shopping",
+        "Travel",
+        "Bills",
+        "Transfer",
+        "Entertainment",
+        "Medical",
+        "Others"
+    ]
 
-    manual_category = st.selectbox(
-        "Select Category",
-        [
-            "Food",
-            "Shopping",
-            "Travel",
-            "Bills",
-            "Transfer",
-            "Entertainment",
-            "Medical",
-            "Others"
-        ]
-    )
+    with st.form("manual_expense_form", clear_on_submit=True):
 
-    if st.button("Add Manual Expense"):
-
-        cursor.execute("""
-        INSERT INTO expenses
-        (amount, category, date)
-        VALUES (?, ?, ?)
-        """, (
-            manual_amount,
-            manual_category,
-            datetime.now().strftime("%Y-%m-%d")
-        ))
-
-        conn.commit()
-
-        st.success(
-            "Manual Expense Added Successfully!"
+        manual_amount = st.number_input(
+            "Enter Amount",
+            min_value=1,
+            step=1
         )
 
-        st.rerun()
+        manual_category = st.selectbox(
+            "Select Category",
+            categories
+        )
+
+        submitted = st.form_submit_button("Add Manual Expense")
+
+        if submitted:
+    
+            cursor.execute("""
+                INSERT INTO expenses
+                (amount, category, date)
+                VALUES (?, ?, ?)
+                """, (
+                    manual_amount,
+                    manual_category,
+                    datetime.now().strftime("%Y-%m-%d")
+            ))
+
+            conn.commit()
+
+            st.success("✅ Manual Expense Added Successfully!")
 # ---------------------------------------------------
 # EXPENSE HISTORY
 # ---------------------------------------------------

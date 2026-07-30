@@ -5,8 +5,11 @@ from google import genai
 
 load_dotenv()
 
-api_key = st.secrets.get("GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY")
-
+try:
+    api_key = st.secrets["GEMINI_API_KEY"]
+except Exception:
+    api_key = os.getenv("GEMINI_API_KEY")
+    
 client = genai.Client(
     api_key=api_key
 )
