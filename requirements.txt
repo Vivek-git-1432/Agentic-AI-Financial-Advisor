@@ -1,0 +1,10 @@
+streamlit
+pandas
+matplotlib
+pillow
+numpy
+opencv-python-headless
+easyocr
+langchain-groq
+google-genai
+python-dotenv

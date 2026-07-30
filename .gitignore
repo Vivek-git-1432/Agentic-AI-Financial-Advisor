@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.vscode/
+expenses.db
+sample.jpeg 
+sample1.jpeg
