@@ -873,24 +873,28 @@ elif page == "Expense History":
             value=int(selected_expense["amount"])
         )
 
+        categories = [
+            "Food",
+            "Shopping",
+            "Travel",
+            "Entertainment",
+            "Bills",
+            "Transfer",
+            "Medical",
+            "Education",
+            "Fuel",
+            "Others"
+        ]
+
+        current_category = str(selected_expense["category"]).strip()
+
+        if current_category not in categories:
+            current_category = "Others"
+
         new_category = st.selectbox(
             "New Category",
-            [
-                "Food",
-                "Shopping",
-                "Travel",
-                "Entertainment",
-                "Bills",
-                "Transfer"
-            ],
-            index=[
-                "Food",
-                "Shopping",
-                "Travel",
-                "Entertainment",
-                "Bills",
-                "Transfer"
-            ].index(selected_expense["category"])
+            categories,
+            index=categories.index(current_category)
         )
         
         new_recipient = st.text_input(
