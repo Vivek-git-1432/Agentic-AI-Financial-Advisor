@@ -6,3 +6,5 @@ __pycache__/
 expenses.db
 sample.jpeg 
 sample1.jpeg
+test_gemini.py 
+check_model.py

@@ -766,8 +766,8 @@ elif page == "Expense History":
         sort_option = st.selectbox(
             "Sort By",
             [
-                "Latest",
                 "Oldest",
+                "Latest",
                 "Highest Amount",
                 "Lowest Amount"
             ]

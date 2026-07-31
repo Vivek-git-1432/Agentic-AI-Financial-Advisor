@@ -1,4 +1,6 @@
 import os
+import json
+from PIL import Image
 import streamlit as st
 from dotenv import load_dotenv
 from google import genai
@@ -13,7 +15,6 @@ except Exception:
 client = genai.Client(
     api_key=api_key
 )
-
 PROMPT = """
 You are an expert financial document extraction AI.
 
@@ -22,7 +23,7 @@ Analyze the uploaded UPI payment screenshot.
 Extract ONLY these fields and return ONLY valid JSON.
 
 {
-    "amount": null,
+    "amount": 0,
     "recipient": "",
     "payment_app": "",
     "date": "",
@@ -75,11 +76,14 @@ Return ONLY JSON.
 
 
 def process_payment(image: Image.Image):
-
+    print("############################")
+    print("GEMINI FUNCTION CALLED")
+    print("############################")
+    
     try:
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-flash-latest",
             contents=[PROMPT, image]
         )
 
@@ -94,16 +98,9 @@ def process_payment(image: Image.Image):
 
         data = json.loads(text)
 
-        amount = data.get("amount")
-
-        try:
-            amount = int(amount)
-        except (TypeError, ValueError):
-            amount = None
-
         return {
             "success": True,
-            "amount": amount,
+            "amount": int(data.get("amount", 0)),
             "recipient": data.get("recipient", "Unknown"),
             "payment_app": data.get("payment_app", "Unknown"),
             "date": data.get("date", ""),
@@ -114,7 +111,7 @@ def process_payment(image: Image.Image):
 
         return {
             "success": False,
-            "amount": None,
+            "amount": 0,
             "recipient": "Unknown",
             "payment_app": "Unknown",
             "date": "",
